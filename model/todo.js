@@ -5,11 +5,11 @@ const mongoose = require('mongoose');
          type:String,
          required: true
      },
-     task:{
+     title:{
          type: String,
          required: true
      }
      
  })
  
- module.exports = mongoose.todo('todo', todoSchema)
+ module.exports = mongoose.model('todo', todoSchema)

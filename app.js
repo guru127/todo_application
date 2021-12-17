@@ -15,7 +15,7 @@ con.on('open', ()=>{
     console.log('connected...');
 });
 
-app.use('/user', user);
+app.use('/', user);
 //app.use('/todo', todo);
 
 app.listen(9000, ()=>{
