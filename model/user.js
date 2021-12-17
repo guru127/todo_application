@@ -11,4 +11,4 @@ const mongoose = require('mongoose');
      }
      
  })
- module.exports = mongoose.user('user', userSchema)
+ module.exports = mongoose.model('user', userSchema)
