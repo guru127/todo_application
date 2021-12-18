@@ -66,7 +66,7 @@ user.post('/user/login', async(request, response)=>{
 })
 
 
-// geting todos of autherized users
+//geting todos of autherized users
 user.get('/todo/list', authenticateToken, async(request, response)=>{
   try{
     const todoList = await todos.find()
@@ -77,7 +77,24 @@ user.get('/todo/list', authenticateToken, async(request, response)=>{
   }  
 })
 
-// geting all todos
+user.patch('/todo/update/:id', authenticateToken, async(request, response) =>{
+  try{
+    console.log(request.params.id)
+    const data = await todos.findById(request.params.id);
+    if (data.email == request.user.email){
+      data.title = request.body.title;
+      const res = await data.save()
+      response.json(data);
+    }else{
+      response.send('Not autherized to change')
+
+    }
+  }catch{
+    response.status(500).send()
+  }
+})
+
+//geting all todos
  user.get('/todo/alllist' , async(requeest, response)=>{
    try{
      const todoList = await todos.find()
@@ -101,7 +118,6 @@ user.get('/todo/list', authenticateToken, async(request, response)=>{
         })
  }
 
-
 // get all users 
 user.get('/user', async(request, response)=>{
    
@@ -112,8 +128,8 @@ user.get('/user', async(request, response)=>{
  }catch(err){
    response.send('error ')
  }
-
 });
+
 user.delete('/user', async(request, response)=>{   
 try{
   const userData = await users.deleteMany() ;
@@ -123,6 +139,7 @@ try{
  response.send('error ')
 }
 });
+
 user.delete('/user:id', async(request, response)=>{
 try{
      const data =await users.findById(request.params.id);

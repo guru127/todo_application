@@ -38,3 +38,13 @@ get http://localhost:9000/todo/alllist
 get http://localhost:9000/todo/list
 Content-Type: application/json
 Authorization: Bearer "token----------"
+
+###
+
+PATCH  http://localhost:9000/todo/update/61bd620667961d608cac5540
+Content-Type: application/json
+Authorization: Bearer "token----------"
+
+{
+    "title":"todo 007"
+}
