@@ -39,7 +39,7 @@ get http://localhost:9000/todo/list
 Content-Type: application/json
 Authorization: Bearer "token----------"
 
-###
+### patch
 
 PATCH  http://localhost:9000/todo/update/61bd620667961d608cac5540
 Content-Type: application/json
@@ -48,3 +48,8 @@ Authorization: Bearer "token----------"
 {
     "title":"todo 007"
 }
+### delete
+
+DELETE  http://localhost:9000/todo/delete/61bd620667961d608cac5540
+Content-Type: application/json
+Authorization: Bearer "token----------"

@@ -77,6 +77,7 @@ user.get('/todo/list', authenticateToken, async(request, response)=>{
   }  
 })
 
+// update todo 
 user.patch('/todo/update/:id', authenticateToken, async(request, response) =>{
   try{
     console.log(request.params.id)
@@ -87,6 +88,23 @@ user.patch('/todo/update/:id', authenticateToken, async(request, response) =>{
       response.json(data);
     }else{
       response.send('Not autherized to change')
+
+    }
+  }catch{
+    response.status(500).send()
+  }
+})
+
+// delete -- 
+user.delete('/todo/delete/:id', authenticateToken, async(request, response) =>{
+  try{
+    console.log(request.params.id)
+    const data = await todos.findById(request.params.id);
+    if (data.email == request.user.email){     
+      const res = await data.remove()
+      response.json(res);
+    }else{
+      response.send('Not autherized to delete')
 
     }
   }catch{
