@@ -1,8 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const url = 'mongodb://localhost/ToDoDB';
-const user = require('./routes/user');
-//const todo  = require('./routes/todo');
+const router = require('./routes/router');
 
 const app = express()
 
@@ -15,8 +14,7 @@ con.on('open', ()=>{
     console.log('connected...');
 });
 
-app.use('/', user);
-//app.use('/todo', todo);
+app.use('/', router);
 
 app.listen(9000, ()=>{
     console.log('server started');
