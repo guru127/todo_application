@@ -12,11 +12,11 @@ const jwt = require('jsonwebtoken');
          const userData =await users.find();
          const data = userData.find(user =>user.email == requeest.body.email) 
         if(data == null){           
-           const user = new  users({
+           const newUser = new  users({
               email : requeest.body.email,
               password : requeest.body.password
            });
-           const res = await user.save();  
+           const res = await newUser.save();  
            response.json(res);
          }else{
            response.send("User Already exists")
@@ -25,6 +25,7 @@ const jwt = require('jsonwebtoken');
           response.status(500).send()
       }   
  })
+
 //login 
 user.post('/user/login', async(request, response)=>{
   try{
@@ -53,18 +54,37 @@ user.post('/user/login', async(request, response)=>{
  // creating todos
  user.post('/todo/create', authenticateToken, async(requeest, response)=>{    
   try{
-      console.log ("todo")
-    
+      const newTodo = new todos({
+        email : requeest.user.email,
+        title : requeest.body.title
+      })
+      const res = await newTodo.save();  
+      response.json(res);
    }catch{
        response.status(500).send()
    }   
 })
 
 
+// geting todos of autherized users
+user.get('/todo/list', authenticateToken, async(request, response)=>{
+  try{
+    const todoList = await todos.find()
+    const res = todoList.filter(todo =>todo.email == request.user.email)
+    response.json(res);
+  }catch{
+   response.status(500).send()
+  }  
+})
 
- // geting post of autherized users
- user.get('/user/list', authenticateToken, async(req, res)=>{
-     res.json(Posts.filter(post => post.username === req.user.name))
+// geting all todos
+ user.get('/todo/alllist' , async(requeest, response)=>{
+   try{
+     const todoList = await todos.find()
+     response.json(todoList);
+   }catch{
+    response.status(500).send()
+   }  
  })
 
  function authenticateToken(request, response, next){
@@ -79,7 +99,7 @@ user.post('/user/login', async(request, response)=>{
             request.user = user
             next()              
         })
-}
+ }
 
 
 // get all users 
